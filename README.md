@@ -8,4 +8,5 @@ Start a voldemort single instance server
 
 Start another instance, that we can use as a client
 
-    $ docker run -i --link=voldemort:voldemort -t voldemort ./bin/voldemort-shell.sh test tcp://voldemort:6666
+    $ docker run -i --link=voldemort:voldemort -t voldemort \
+            ./bin/voldemort-shell.sh test tcp://voldemort:6666
