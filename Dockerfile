@@ -1,16 +1,15 @@
-FROM ubuntu:14.04
+FROM java:7
 
-RUN apt-get update
-RUN apt-get install -y wget 
-RUN wget https://github.com/downloads/voldemort/voldemort/voldemort-0.96.zip
+RUN apt-get update && apt-get install -y wget unzip
 
-RUN apt-get install -y unzip
-RUN unzip voldemort-0.96.zip
+ENV VOLDEMORT_VERSION=release-1.9.17-cutoff
+RUN wget https://github.com/voldemort/voldemort/archive/$VOLDEMORT_VERSION.zip
+RUN unzip $VOLDEMORT_VERSION.zip && mv voldemort-* voldemort
 
-RUN apt-get install -y openjdk-7-jre-headless
+WORKDIR /voldemort/
 
-ENV VOLDEMORT_HOME /voldemort-0.96/config/single_node_cluster
-WORKDIR /voldemort-0.96/
+ENV VOLDEMORT_HOME /voldemort/config/single_node_cluster
+RUN ./gradlew clean jar
 
 EXPOSE 6666 6667 8081
 
